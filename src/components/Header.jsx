@@ -17,9 +17,9 @@ function pathMatch(route){
         </div>
         <div>
        <ul className='flex space-x-10'>
-        <li className={`py-3  text-sm font-semibold text-gray-400 border-b-[3px] cursor-pointer ${pathMatch("/") && "text-black border-b-orange-500"}`} onClick={()=>navigate("/")}>Home</li>
-        <li className={`py-3  text-sm font-semibold text-gray-400 border-b-[3px] cursor-pointer ${pathMatch("/Offers") && "text-black border-b-orange-500"}`} onClick={()=>navigate("/Offers")}>Offers</li>
-        <li className={`py-3  text-sm font-semibold text-gray-400 border-b-[3px] cursor-pointer ${pathMatch("/SignIn") && "text-black border-b-orange-500"}`} onClick={()=>navigate("/SignIn")}>Sign In</li>
+        <li className={`cursor-ponter py-3  text-sm font-semibold text-black border-b-[3px] cursor-pointer ${pathMatch("/") && "border-b-orange-500 text-black"}`} onClick={()=>navigate("/")}>Home</li>
+        <li className={`cursor-ponter py-3  text-sm font-semibold text-black border-b-[3px] cursor-pointer ${pathMatch("/Offers") && "border-b-orange-500 text-black"}`} onClick={()=>navigate("/Offers")}>Offers</li>
+        <li className={`cursor-ponter py-3  text-sm font-semibold text-black border-b-[3px] cursor-pointer ${pathMatch("/SignIn") && "border-b-orange-500 text-black"}`} onClick={()=>navigate("/SignIn")}>Sign In</li>
        </ul>
         </div>
       </header>

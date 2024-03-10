@@ -29,7 +29,7 @@ export default function SignIn() {
       <img src={image1} alt="photoProp" className="w-full"/>
       </div>
       <div className="w-full lg:w-[40%] lg:ml-20 md:ml-10">
-        <form >
+        <form>
           <div>
           <input className="w-3/4 mx-12 rounded transition ease-in-out" placeholder="email" type="email" id="email" value={email} onChange={onChange}/>
           </div>

@@ -4,14 +4,22 @@ import image1 from '../3854e91e-372a-4295-9a2b-e8d1190cac74-portrait.png'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import OAuth from '../components/OAuth';
+import { getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
+import {db} from '../firebase'
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     fullname:"",
     email:"",
     password:"",
+    age:'',
+    bio:'',
   });
-  const { fullname, email ,password } = formData;
+  const { fullname, email ,password, age, bio } = formData;
+  const navigate = useNavigate();
   function onChange(e){
   setFormData((prevState) => ({
     ...prevState,
@@ -22,6 +30,30 @@ export default function SignUp() {
     e.preventDefault();
     setShowPassword(!showPassword)
   }
+  async function onSubmit(e)
+  {
+   e.preventDefault();
+   try {
+    const auth = getAuth();
+    const userCredential = await createUserWithEmailAndPassword(auth, email , password);
+    updateProfile(auth.currentUser, {
+      displayName: fullname ,
+      age:'',
+      bio:"",
+    })
+    const user = userCredential.user;
+    const id = user.uid;
+    const formDataCopy = {'id':id , ...formData}
+    delete formDataCopy.password;
+    formDataCopy.timestamp = serverTimestamp();
+
+    await setDoc(doc(db, "users" , user.uid ), formDataCopy)
+    toast.success("Sign up successful")
+    navigate('/');
+   } catch (error) {
+    toast.error("Something went wrong with the registration")
+   }
+  }
   return (
   <section class="Sign">
     <h1 className="text-3xl text-center mt-3 xfont-bold">Sign Up</h1>
@@ -30,15 +62,21 @@ export default function SignUp() {
       <img src={image1} alt="photoProp" className="w-full"/>
       </div>
       <div className="w-full lg:w-[40%] lg:ml-20 md:ml-10">
-        <form >
+        <form  onSubmit={onSubmit}>
           <div className="mb-3">
           <input className="w-3/4 mx-12 rounded transition ease-in-out" placeholder="fullname" type="fullname" id="fullname" value={fullname} onChange={onChange}/>
           </div>
-          <div>
+          <div className='mb-3'>
           <input className="w-3/4 mx-12 rounded transition ease-in-out" placeholder="email" type="email" id="email" value={email} onChange={onChange}/>
           </div>
+          <div className="mb-3">
+          <input className="w-3/4 mx-12 rounded transition ease-in-out" placeholder="age" type="age" id="age" value={age} onChange={onChange}/>
+          </div>
+          <div className="mb-3">
+          <input className="w-3/4 mx-12  p-4 rounded transition ease-in-out" placeholder="bio" type="bio" id="bio" value={bio} onChange={onChange}/>
+          </div>
           <div className="relative w-3/4">
-          <input className="w-full mx-12 my-4 font-extrabold rounded transition ease-in-out" placeholder="password"  type ={showPassword ? "text" : "password"} id="password" value={password} onChange={onChange} />
+          <input className="w-full mx-12 mb-3 font-extrabold rounded transition ease-in-out" placeholder="password"  type ={showPassword ? "text" : "password"} id="password" value={password} onChange={onChange} />
           {showPassword ? <FaEye className="absolute -right-9 top-[16px] text-black" onClick={onClick}/> : <FaEyeSlash className="absolute -right-9 top-[16px] text-black"  onClick={onClick}/>}
           </div>
           <div className="w-3/4 ml-10 pl-2 whitespace-nowrap flex flex-col">

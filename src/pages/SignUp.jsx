@@ -16,9 +16,8 @@ export default function SignUp() {
     email:"",
     password:"",
     age:'',
-    bio:'',
   });
-  const { fullname, email ,password, age, bio } = formData;
+  const { fullname, email ,password, age, bio} = formData;
   const navigate = useNavigate();
   function onChange(e){
   setFormData((prevState) => ({
@@ -38,8 +37,8 @@ export default function SignUp() {
     const userCredential = await createUserWithEmailAndPassword(auth, email , password);
     updateProfile(auth.currentUser, {
       displayName: fullname ,
-      age:'',
-      bio:"",
+      age:age,
+      bio:bio,
     })
     const user = userCredential.user;
     const id = user.uid;
@@ -69,15 +68,15 @@ export default function SignUp() {
           <div className='mb-3'>
           <input className="w-3/4 mx-12 rounded transition ease-in-out" placeholder="email" type="email" id="email" value={email} onChange={onChange}/>
           </div>
-          <div className="mb-3">
+          <div className='mb-3'>
           <input className="w-3/4 mx-12 rounded transition ease-in-out" placeholder="age" type="age" id="age" value={age} onChange={onChange}/>
           </div>
-          <div className="mb-3">
-          <input className="w-3/4 mx-12  p-4 rounded transition ease-in-out" placeholder="bio" type="bio" id="bio" value={bio} onChange={onChange}/>
+          <div className='mb-3'>
+          <input className="w-3/4 mx-12 p-2 rounded transition ease-in-out" placeholder="bio" type="bio" id="bio" value={bio} onChange={onChange}/>
           </div>
           <div className="relative w-3/4">
           <input className="w-full mx-12 mb-3 font-extrabold rounded transition ease-in-out" placeholder="password"  type ={showPassword ? "text" : "password"} id="password" value={password} onChange={onChange} />
-          {showPassword ? <FaEye className="absolute -right-9 top-[16px] text-black" onClick={onClick}/> : <FaEyeSlash className="absolute -right-9 top-[16px] text-black"  onClick={onClick}/>}
+          {showPassword ? <FaEye className="absolute -right-9 top-[4px] text-black" onClick={onClick}/> : <FaEyeSlash className="absolute -right-9 top-[4px] text-black"  onClick={onClick}/>}
           </div>
           <div className="w-3/4 ml-10 pl-2 whitespace-nowrap flex flex-col">
             <p className="mb-1 text-sm">Already have an account?<Link to="/SignIn" className="text-blue-300 pl-2 hover:text-blue-500 transition ease-in-out">Log In</Link></p> 

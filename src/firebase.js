@@ -6,12 +6,13 @@ import { getFirestore } from "firebase/firestore"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDYFDlhwKbCH18CMWq8DNVv7_C1Srpex-I",
-  authDomain: "octopols-coloc.firebaseapp.com",
-  projectId: "octopols-coloc",
-  storageBucket: "octopols-coloc.appspot.com",
-  messagingSenderId: "505790733254",
-  appId: "1:505790733254:web:9f4062e8027a92b8ca70c7"
+  apiKey: "AIzaSyALN-CFGulwdhcfd4GqmWAKm7GjNlh-3Zk",
+  authDomain: "colocweb.firebaseapp.com",
+  projectId: "colocweb",
+  storageBucket: "colocweb.appspot.com",
+  messagingSenderId: "533553464834",
+  appId: "1:533553464834:web:769f85bdafafd15fac891b",
+  measurementId: "G-0QJFBBH978"
 };
 
 // Initialize Firebase

@@ -1,11 +1,25 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import image1 from '../3854e91e-372a-4295-9a2b-e8d1190cac74-portrait.png'
 import OAuth from '../components/OAuth';
+import { toast } from 'react-toastify';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 export default function ForgotPassword0() {
   const [ email , setEmail ] = useState("");
+  const navigate = useNavigate();
   function onChange(e){
   setEmail(e.target.value);
+  }
+  async function onSubmit(e){
+    e.preventDefault();
+    try {
+      const auth = getAuth()
+      await sendPasswordResetEmail(auth, email);
+      toast.success("Email was sent")
+      navigate("/SignIn");
+    } catch (error) {
+      toast.error("Couldn't send password-reset email")
+    }
   }
   return (
   <section class="Sign">
@@ -15,7 +29,7 @@ export default function ForgotPassword0() {
       <img src={image1} alt="photoProp" className="w-full"/>
       </div>
       <div className="w-full lg:w-[40%] lg:ml-20 md:ml-10">
-        <form >
+        <form onSubmit={onSubmit}>
           <div>
           <input className="w-3/4 mx-12 rounded transition ease-in-out" placeholder="email" type="email" id="email" value={email} onChange={onChange}/>
           </div>

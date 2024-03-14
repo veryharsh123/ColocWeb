@@ -4,6 +4,9 @@ import image1 from '../3854e91e-372a-4295-9a2b-e8d1190cac74-portrait.png'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import OAuth from '../components/OAuth';
+import {signInWithEmailAndPassword, getAuth} from "firebase/auth";
+import {toast} from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -11,6 +14,7 @@ export default function SignIn() {
     password:"",
   });
   const { email ,password } = formData;
+  const navigate = useNavigate();
   function onChange(e){
   setFormData((prevState) => ({
     ...prevState,
@@ -21,6 +25,19 @@ export default function SignIn() {
     e.preventDefault();
     setShowPassword(!showPassword)
   }
+  async function onSubmit(e) {
+    e.preventDefault();
+    try {
+      const auth = getAuth()
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    if(userCredential.user){
+      navigate('/');
+    }
+      
+    } catch (error) {
+      toast.error("Couldn't Sign in")
+    }
+  }
   return (
   <section class="Sign">
     <h1 className="text-3xl text-center mt-3 xfont-bold">Sign In</h1>
@@ -29,7 +46,7 @@ export default function SignIn() {
       <img src={image1} alt="photoProp" className="w-full"/>
       </div>
       <div className="w-full lg:w-[40%] lg:ml-20 md:ml-10">
-        <form>
+        <form onSubmit={onSubmit}>
           <div>
           <input className="w-3/4 mx-12 rounded transition ease-in-out" placeholder="email" type="email" id="email" value={email} onChange={onChange}/>
           </div>

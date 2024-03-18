@@ -24,8 +24,9 @@ if(!docSnap.exists()){
     timestamp:serverTimestamp(),
     id:user.uid,
   })
-navigate('/');
 }
+toast.success("Successfully signed in with Google")
+navigate('/');
 } catch (error) {
   const errorMessage = error.message;
   toast.error(errorMessage);

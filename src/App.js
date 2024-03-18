@@ -6,6 +6,7 @@ import Offers from './pages/Offers'
 import Profile from './pages/Profile'
 import ForgotPassword from './pages/ForgotPassword';
 import Header from './components/Header';
+import PrivateRoute from './components/PrivateRoute';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,7 +18,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/Offers' element={< Offers/>} />
+        <Route path='/Profile' element={<PrivateRoute/>}>
         <Route path='/Profile' element={<Profile />} />
+        </Route>
         <Route path='/SignUp' element={<SignUp />} />
         <Route path='/SignIn' element={< SignIn/>} />
         <Route path='/ForgotPassword' element={< ForgotPassword/>} />

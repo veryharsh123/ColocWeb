@@ -10,7 +10,7 @@ function pathMatch(route){
     }
 }
   return (
-    <div className='bg-white border-b shadow-sm sticky top-0 z-50'>
+    <div id="divv" className='bg-white border-b shadow-sm sticky top-0 z-50'>
       <header className='flex justify-between items-center px-3 max-w-6xl mx-auto'>
         <div>
         <img src="https://iili.io/JGxhJIf.png" alt="JGxhJIf.png" border="0" className='h-10 cursor-pointer' onClick={()=>navigate("/")}/>

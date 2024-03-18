@@ -40,7 +40,7 @@ export default function SignIn() {
   }
   return (
   <section class="Sign">
-    <h1 className="text-3xl text-center mt-3 xfont-bold">Sign In</h1>
+    <h1 class="text" className="text-3xl text-center mt-3 xfont-bold">Sign In</h1>
     <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
       <div className="md:w-[30%] lg:w-[30%] sm:w-[40%] mb-12 md:mb-6 mt-[0.5rem]">
       <img src={image1} alt="photoProp" className="w-full"/>

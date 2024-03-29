@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { db } from '../firebase';
 import { toast } from 'react-toastify';
+import { IoMdHome } from "react-icons/io";
+import { Link } from 'react-router-dom';
 export default function Profile() {
   const auth  = getAuth()
   const navigate = useNavigate();
@@ -53,6 +55,11 @@ export default function Profile() {
         <p onClick={onLogOut} className="text-blue-300 hover:text-blue-500 cursor-pointer transition ease-in-out">Sign out</p>
       </div>
       </form>
+      <button type="submit" className='w-full py-2 bg-blue-600 hover:bg-blue-800 rounded transition ease-in-out'>
+        <Link to="/create-listing" class="flex justify-center items-center">
+        <IoMdHome className="mr-2 text-3xl bg-black rounded-full border-2 border-blue-800 p-1" />Put your flat up for display
+        </Link>
+        </button>
     </div>
    </section>
    </>

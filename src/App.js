@@ -3,7 +3,6 @@ import Home from "./pages/Home"
 import SignIn from './pages/SignIn'
 // @ts-ignore
 import SignUp from './pages/SignUp';
-import Offers from './pages/Offers'
 import Profile from './pages/Profile'
 import ForgotPassword from './pages/ForgotPassword';
 import Header from './components/Header';
@@ -12,6 +11,8 @@ import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateListing from './pages/CreateListing';
+import EditListing from './pages/EditListing';
+import FindFlatmate from './pages/FindFlatmate';
 function App() {
   return (
     <>
@@ -19,7 +20,7 @@ function App() {
       <Header/>
       <Routes>
         <Route path='/' element={<Home/>} />
-        <Route path='/Offers' element={< Offers/>} />
+        <Route path='/find' element={< FindFlatmate/>} />
         <Route path='/Profile' element={<PrivateRoute/>}>
         <Route path='/Profile' element={<Profile />} />
         </Route>
@@ -28,6 +29,9 @@ function App() {
         <Route path='/ForgotPassword' element={< ForgotPassword/>} />
         <Route path='/create-listing' element={<PrivateRoute/>}>
         <Route path='/create-listing' element={< CreateListing/>} />
+        </Route>
+        <Route path='/edit-listing' element={<PrivateRoute/>}>
+        <Route path='/edit-listing/:listingId' element={< EditListing/>} />
         </Route>
       </Routes>
     </Router>

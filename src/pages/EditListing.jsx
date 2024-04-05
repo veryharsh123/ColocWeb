@@ -246,7 +246,7 @@ export default function CreateListing() {
             <p className="text-gray-600 py-2">The first image will be cover(max 6)</p>
             <input type="file" id="images" onChange={onChange} accept=".jpg,.png, .jpeg" multiple required className="w-full px-3 py-1.5 bg-white border border-gray-300 rounded transition ease-in-out"/>
         </div>
-        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-800 hover:bg-blue-950 text-white rounded transition ease-in-out">Create Listing</button>
+        <button type="submit" className="mb-6 w-full px-7 py-3 bg-blue-800 hover:bg-blue-950 text-white rounded transition ease-in-out">Update Listing</button>
         </form>
     </main>
   )

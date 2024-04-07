@@ -7,10 +7,12 @@ import { EffectFade, Autoplay, Navigation, Pagination, EffectCards } from "swipe
 import "swiper/css/bundle";
 import { collection, deleteDoc, doc, getDoc, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import Spinner from '../components/spinner';
+import { MdIosShare } from "react-icons/md";
 export default function Listing() {
     const param = useParams()
     const [loading, setLoading] = useState(true);
     const [listing, setListing] = useState(null);
+    const [shareLinkCopied, setShareLinkCopied] = useState(false);
     useEffect(()=>{
 
         async function fetchListing(){
@@ -47,5 +49,11 @@ export default function Listing() {
           </SwiperSlide>
         ))}
       </Swiper>
+      <div className='fixed top-[13%] right-[18%] z-10 bg-black cursor-pointer border-2 border-blue-400 rounded-full w-10 h-10 flex justify-center items-center' onClick={()=>{navigator.clipboard.writeText(window.location.href); setShareLinkCopied(true); setTimeout(()=>{setShareLinkCopied(false)}, 2000)}}>
+       <MdIosShare className="text-lg"/>
+      </div>
+      {shareLinkCopied && (
+        <p className="fixed top-[20%] right-[17%] p-2 text-blue-800 font-bold border-2 border-gray-300 rounded-md bg-gray-400 z-10">Link Copied</p>
+      )}
 </main>
 )}

@@ -55,7 +55,7 @@ export default function SignIn() {
           {showPassword ? <FaEye className="absolute -right-9 top-[16px] text-black" onClick={onClick}/> : <FaEyeSlash className="absolute -right-9 top-[16px] text-black"  onClick={onClick}/>}
           </div>
           <div className="w-3/4 ml-10 pl-2 whitespace-nowrap flex flex-col">
-            <p className="mb-1 text-sm">Don't have an account? <Link to="/SignUp" className="text-blue-300 hover:text-blue-500 transition ease-in-out">Register</Link></p> 
+            <p className="mb-1 text-base">Don't have an account? <Link to="/SignUp" className="text-blue-300 hover:text-blue-500 transition ease-in-out">Register</Link></p> 
             <p className="text-sm"><Link to="/ForgotPassword">Forgot password</Link></p>
           </div>
           <button type='submit' className="w-1/2 ml-28 rounded mt-4 py-1 bg-blue-600 hover:bg-blue-800 transition ease-in-out">Sign In</button>

@@ -195,7 +195,7 @@ export default function CreateListing() {
                 </div>
             )}
             <p className='text-lg font-semibold '>Description</p>
-            <textarea type="text" id="description" value={description} onChange={onChange} placeholder='Description' maxLength="32" minLength="10" required className=" w-full py-5 px-3 my-2 text-md text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"/>
+            <textarea type="text" id="description" value={description} onChange={onChange} placeholder='Description' maxLength="100" minLength="10" required className=" w-full py-5 px-3 my-2 text-md text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"/>
             <div className=''>
                 <div>
                     <p className="text-lg font-semibold">Price</p>

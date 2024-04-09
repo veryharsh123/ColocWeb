@@ -5,16 +5,18 @@ import { db } from '../firebase';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Autoplay, Navigation, Pagination, EffectCards } from "swiper/modules";
 import "swiper/css/bundle";
-import { collection, deleteDoc, doc, getDoc, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, where } from 'firebase/firestore';
+import { FaBed } from "react-icons/fa6";
+import { FaBath } from "react-icons/fa6";
 import Spinner from '../components/spinner';
 import { MdIosShare } from "react-icons/md";
+import { FaMapMarkerAlt, FaParking, FaChair } from "react-icons/fa";
 export default function Listing() {
     const param = useParams()
     const [loading, setLoading] = useState(true);
     const [listing, setListing] = useState(null);
     const [shareLinkCopied, setShareLinkCopied] = useState(false);
     useEffect(()=>{
-
         async function fetchListing(){
           const docRef = doc(db, "listings", param.listingId)
           const docSnap = await getDoc(docRef);
@@ -55,5 +57,41 @@ export default function Listing() {
       {shareLinkCopied && (
         <p className="fixed top-[20%] right-[17%] p-2 text-blue-800 font-bold border-2 border-gray-300 rounded-md bg-gray-400 z-10">Link Copied</p>
       )}
+      <div className="flex flex-col md:flex-row max-w-6xl lg:mx-auto p-4 rounded-lg shadow-lg lg:space-x-5">
+        <div className="w-full bg-gray-950 h-[200px] rounded lg-[400px]">
+          <p className="text-2xl font-extrabold mb-3 text-blue-500 text-nowrap">
+            {listing.name} - ₹{listing.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            {listing.type === "rent" ? " /Month" : ""}
+          </p>
+          <p className='flex items-center align-center mt-6 mb-3 font-semibold '>
+          <FaMapMarkerAlt className='text-red-600 mr-1'/>
+          {listing.address}
+          </p>
+          <div className="flex justify-start items-center w-[75%]">
+            <p className='bg-red-800 w-full max-w-[200px] rounded-md p-1 text-center font-semibold shadow-md'> {listing.type === 'rent' ? "Rent" : "Sale"}
+            </p>
+            </div>
+          <p className='mt-3 mb-3'> <span className='font-bold'>Description</span> - {listing.description}</p>
+          <ul className="flex items-center space-x-4 sm:space-x-10 text-sm font-semibold ">
+            <li className="flex items-center text-lg whitespace-nowrap">
+            <FaBed className="mr-1"/>
+              {+listing.bedroom > 1 ? `${listing.bedroom} Beds` : "1 Bed"}
+            </li>
+            <li className="flex items-center text-lg whitespace-nowrap">
+            <FaBath className="mr-1"/>
+              {+listing.bathroom > 1 ? `${listing.bathroom} Baths` : "1 Bath"}
+            </li>
+            <li className="flex items-center text-sm whitespace-nowrap">
+            <FaParking className="mr-1"/>
+              {listing.parking ? `Parking` : "Not Parking"}
+            </li>
+            <li className="flex items-center text-sm whitespace-nowrap">
+            <FaChair className="mr-1 text-amber-600"/>
+              {listing.furnished ? `Furnished` : "Not Furnished"}
+            </li>
+          </ul>
+        </div>
+        <div className="bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-x-hidden"></div>
+      </div>
 </main>
 )}

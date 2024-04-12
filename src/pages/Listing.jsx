@@ -11,11 +11,14 @@ import { FaBath } from "react-icons/fa6";
 import Spinner from '../components/spinner';
 import { MdIosShare } from "react-icons/md";
 import { FaMapMarkerAlt, FaParking, FaChair } from "react-icons/fa";
+import Contact from '../components/Contact';
 export default function Listing() {
     const param = useParams()
+    const auth = getAuth()
     const [loading, setLoading] = useState(true);
     const [listing, setListing] = useState(null);
     const [shareLinkCopied, setShareLinkCopied] = useState(false);
+    const [contactOnwer, setContactOwner] = useState(false);
     useEffect(()=>{
         async function fetchListing(){
           const docRef = doc(db, "listings", param.listingId)
@@ -58,8 +61,8 @@ export default function Listing() {
         <p className="fixed top-[20%] right-[17%] p-2 text-blue-800 font-bold border-2 border-gray-300 rounded-md bg-gray-400 z-10">Link Copied</p>
       )}
       <div className="flex flex-col md:flex-row max-w-6xl lg:mx-auto p-4 rounded-lg shadow-lg lg:space-x-5">
-        <div className="w-full bg-gray-950 h-[200px] rounded lg-[400px]">
-          <p className="text-2xl font-extrabold mb-3 text-blue-500 text-nowrap">
+        <div className="w-full bg-gray-950 ">
+          <p className="text-2xl font-extrabold mb-3 text-gray-300 text-nowrap">
             {listing.name} - ₹{listing.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             {listing.type === "rent" ? " /Month" : ""}
           </p>
@@ -71,8 +74,8 @@ export default function Listing() {
             <p className='bg-red-800 w-full max-w-[200px] rounded-md p-1 text-center font-semibold shadow-md'> {listing.type === 'rent' ? "Rent" : "Sale"}
             </p>
             </div>
-          <p className='mt-3 mb-3'> <span className='font-bold'>Description</span> - {listing.description}</p>
-          <ul className="flex items-center space-x-4 sm:space-x-10 text-sm font-semibold ">
+          <p className='mt-3 mb-3 text-gray-400'> <span className='font-extrabold text-white'>Description</span> - {listing.description}</p>
+          <ul className="flex items-center space-x-4 sm:space-x-10 text-sm font-semibold mb-6 ">
             <li className="flex items-center text-lg whitespace-nowrap">
             <FaBed className="mr-1"/>
               {+listing.bedroom > 1 ? `${listing.bedroom} Beds` : "1 Bed"}
@@ -90,6 +93,10 @@ export default function Listing() {
               {listing.furnished ? `Furnished` : "Not Furnished"}
             </li>
           </ul>
+          {listing.userRef !== auth.currentUser?.uid && !contactOnwer && (   <div className="">
+          <button onClick={()=>{setContactOwner(true)}}className=" w-3/4 px-7 py-3 bg-blue-600 text-white font-medium rounded shawdow-md hover:bg-blue-800 hover:shadow-lg">Contact Owner</button>
+        </div>)}
+        {contactOnwer && (<Contact userRef={listing.userRef} listing={listing}/>)}
         </div>
         <div className="bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-x-hidden"></div>
       </div>

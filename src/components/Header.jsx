@@ -15,7 +15,6 @@ export default function Header() {
   },[auth])
     const location = useLocation();
     const navigate = useNavigate();
-console.log(Location.pathname);
 function pathMatch(route){
     if(route===location.pathname){
         return true;

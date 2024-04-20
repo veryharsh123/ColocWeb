@@ -62,8 +62,8 @@ export default function Listing() {
         <p className="fixed top-[20%] right-[17%] p-2 text-blue-800 font-bold border-2 border-gray-300 rounded-md bg-gray-400 z-10">Link Copied</p>
       )}
       <div className="flex flex-col md:flex-row max-w-6xl lg:mx-auto p-4 rounded-lg shadow-lg lg:space-x-5">
-        <div className="w-full bg-gray-950 ">
-          <p className="text-2xl font-extrabold mb-3 text-gray-300 text-nowrap">
+        <div className="w-full bg-gray-950 mt-3">
+          <p className="text-2xl font-extrabold mb-3 text-gray-300">
             {listing.name} - ₹{listing.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             {listing.type === "rent" ? " /Month" : ""}
           </p>
@@ -76,21 +76,21 @@ export default function Listing() {
             </p>
             </div>
           <p className='mt-3 mb-3 text-gray-400'> <span className='font-extrabold text-white'>Description</span> - {listing.description}</p>
-          <ul className="flex items-center space-x-4 sm:space-x-10 text-sm font-semibold mb-6 ">
-            <li className="flex items-center text-lg whitespace-nowrap">
-            <FaBed className="mr-1"/>
+          <ul className="flex items-center space-x-4 sm:space-x-10 text-xs md:text-base font-semibold mb-6 ">
+            <li className="flex items-center whitespace-nowrap">
+            <FaBed className="mr-1 text-lg"/>
               {+listing.bedroom > 1 ? `${listing.bedroom} Beds` : "1 Bed"}
             </li>
-            <li className="flex items-center text-lg whitespace-nowrap">
-            <FaBath className="mr-1"/>
+            <li className="flex items-center whitespace-nowrap">
+            <FaBath className="mr-1 text-lg"/>
               {+listing.bathroom > 1 ? `${listing.bathroom} Baths` : "1 Bath"}
             </li>
-            <li className="flex items-center text-sm whitespace-nowrap">
-            <FaParking className="mr-1"/>
+            <li className="flex items-center whitespace-nowrap">
+            <FaParking className="mr-1 text-lg"/>
               {listing.parking ? `Parking` : "Not Parking"}
             </li>
-            <li className="flex items-center text-sm whitespace-nowrap">
-            <FaChair className="mr-1 text-amber-600"/>
+            <li className="flex items-center whitespace-nowrap">
+            <FaChair className="text-lg text-amber-600"/>
               {listing.furnished ? `Furnished` : "Not Furnished"}
             </li>
           </ul>

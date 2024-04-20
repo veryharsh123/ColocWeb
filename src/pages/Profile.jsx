@@ -1,5 +1,5 @@
 import { getAuth, updateProfile } from 'firebase/auth'
-import { collection, deleteDoc, doc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { db } from '../firebase';
@@ -14,10 +14,11 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [changeDetail, setChangeDetail] = useState(false)
   const[formData, setFormData] = useState({
-    name: auth.currentUser.displayName,
-    email: auth.currentUser.email,
+    name: '',
+    email:'',
+    bio:''
   })
-  const {name, email} = formData;
+  const {name, email, bio} = formData;
   async function onLogOut(){
     auth.signOut();
     navigate('/SignIn')
@@ -28,6 +29,22 @@ export default function Profile() {
     [e.target.id]:e.target.value,
   }))
   }
+  //for bio
+  useEffect(()=>{
+    setLoading(true);
+    async function fetchUser(){
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      const userDoc = await getDoc(userRef);
+
+if (userDoc.exists()) {
+    setFormData({email:userDoc.data().email,name:userDoc.data().fullname,bio:userDoc.data().bio})
+} else {
+    console.log("User document does not exist.");
+}
+    }
+    fetchUser();
+  },[])
+    
   async function onSubmit(){
     if(auth.currentUser.displayName!==name){
     await updateProfile(auth.currentUser, {
@@ -36,8 +53,17 @@ export default function Profile() {
   const docRef = doc(db,"users", auth.currentUser.uid)
   await updateDoc(docRef, {
     fullname: name,
+    bio: bio,
   })
   }
+  const userRef = doc(db, "users", auth.currentUser.uid);
+  const userDoc = await getDoc(userRef);
+  if(userDoc.data().bio!==bio){
+    await updateDoc(userRef, {
+      bio: bio,
+    })
+  }
+
   toast.success("Updated")
   }
   useEffect(()=>{
@@ -77,6 +103,7 @@ export default function Profile() {
     </div>
       <form>
         <input type="text" id="name" value={name} disabled={!changeDetail} onChange={onChange} className={`w-full px-4 py-2 mb-6 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out ${ changeDetail && "bg-red focus:bg-red-200}"}`}/>
+        <input type="text" id="bio" value={bio} placeholder="bio" disabled={!changeDetail} onChange={onChange} className={`w-full px-4 py-3 mb-6 text-sm text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out ${ changeDetail && "bg-red focus:bg-red-200}"}`}/>
         <input type="email" id="email" value={email} disabled className=" w-full px-4 py-2 mb-6 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out"/>
       <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg mb-6">
         <p className="">Do you wanna <span onClick={()=>{

@@ -21,7 +21,7 @@ function pathMatch(route){
     }
 }
   return (
-    <div id="divv" className='bg-black hover:bg-white transition ease-in-out duration-150 shadow-sm sticky top-0 z-50'>
+    <div id="divv" className='bg-black hover:bg-white hover:text-blue-950 transition ease-in-out duration-150 shadow-sm sticky top-0 z-50'>
       <header className='flex justify-between items-center px-3 max-w-6xl mx-auto'>
         <div>
         <img src="https://iili.io/JGxhJIf.png" alt="JGxhJIf.png" border="0" className='h-10 cursor-pointer' onClick={()=>navigate("/")}/>

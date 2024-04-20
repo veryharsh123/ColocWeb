@@ -14,6 +14,7 @@ import CreateListing from './pages/CreateListing';
 import EditListing from './pages/EditListing';
 import FindFlatmate from './pages/FindFlatmate';
 import Listing from './pages/Listing';
+import Category from './pages/Category';
 function App() {
   return (
     <>
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/find' element={< FindFlatmate/>} />
+        <Route path='/category/:categoryName' element={< Category/>} />
         <Route path='/Profile' element={<PrivateRoute/>}>
         <Route path='/Profile' element={<Profile />} />
         </Route>

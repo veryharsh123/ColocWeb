@@ -15,6 +15,8 @@ import EditListing from './pages/EditListing';
 import FindFlatmate from './pages/FindFlatmate';
 import Listing from './pages/Listing';
 import Category from './pages/Category';
+import ShowProfile from './pages/ShowProfile';
+import Chat from './pages/Chat';
 function App() {
   return (
     <>
@@ -36,7 +38,11 @@ function App() {
         <Route path='/edit-listing' element={<PrivateRoute/>}>
         <Route path='/edit-listing/:listingId' element={< EditListing/>} />
         </Route>
+        <Route path='/chat' element={<PrivateRoute/>}>
+        <Route path='/chat/:userId' element={< Chat/>} />
+        </Route>
         <Route path='/category/:categoryName/:listingId' element={< Listing/>} />
+        <Route path='/show/:userId' element={<ShowProfile/>} />
       </Routes>
     </Router>
     <ToastContainer

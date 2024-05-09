@@ -2,6 +2,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { db } from '../firebase';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 export default function Contact({userRef, listing}) {
     const [owner, setOwner] = useState(null);
     const [message, setMessage] = useState("");
@@ -25,7 +26,7 @@ export default function Contact({userRef, listing}) {
     <div>
       {owner !== null && (
         <div className=" flex flex-col w-full" id="deets">
-            <p className="text-lg mb-1"> Contact {owner.fullname} for {listing.name}</p>
+            <p className="text-lg mb-1">Contact <Link className='text-blue-600' to={`/show/${userRef}`}>{owner.fullname}</Link> for {listing.name}</p>
             <div>
                 <textarea name="message" className="text-black w-full px-4 py-2 rounded transition ease-in-out duration-150"id="message" rows="2" value={message} onChange={onChange}></textarea>
             </div>

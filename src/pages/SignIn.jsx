@@ -58,7 +58,7 @@ export default function SignIn() {
             <p className="mb-1 text-base">Don't have an account? <Link to="/SignUp" className="text-blue-300 hover:text-blue-500 transition ease-in-out">Register</Link></p> 
             <p className="text-sm"><Link to="/ForgotPassword">Forgot password</Link></p>
           </div>
-          <button type='submit' className="w-1/2 ml-28 rounded mt-4 py-1 bg-blue-600 hover:bg-blue-800 transition ease-in-out">Sign In</button>
+          <button type='submit' className="w-1/2 ml-28  rounded mt-4 py-1 bg-blue-600 hover:bg-blue-800 transition ease-in-out">Sign In</button>
         <div className="w-3/4 ml-12 my-4 flex items-center before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
         <p className="text-center mx-2">or</p>
         </div>

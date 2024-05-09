@@ -15,6 +15,7 @@ import EditListing from './pages/EditListing';
 import FindFlatmate from './pages/FindFlatmate';
 import Listing from './pages/Listing';
 import Category from './pages/Category';
+// @ts-ignore
 import ShowProfile from './pages/ShowProfile';
 import Chat from './pages/Chat';
 function App() {

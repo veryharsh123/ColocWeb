@@ -1,18 +1,27 @@
 import { getAuth, updateProfile } from 'firebase/auth'
 import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { db } from '../firebase';
 import { toast } from 'react-toastify';
 import { IoMdHome } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import ListingItem from './ListingItem';
+import Modal from 'react-modal';
+import { HiCamera } from 'react-icons/hi'
+import {AiOutlineClose} from 'react-icons/ai'
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 export default function Profile() {
   const auth  = getAuth()
   const navigate = useNavigate();
   const [listings, setListings] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [changeDetail, setChangeDetail] = useState(false)
+  const [changeDetail, setChangeDetail] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imageFileUrl, setImageFileUrl] = useState(null);
+  const filePickerRef = useRef(null);
+  const [imageFileUploading, setImageFileUploading] = useState(false);
   const[formData, setFormData] = useState({
     name: '',
     email:'',
@@ -28,6 +37,43 @@ export default function Profile() {
     ...prevState, 
     [e.target.id]:e.target.value,
   }))
+  }
+  function addDisplayPicture(e){
+    const file = e.target.files[0];
+    if(file){
+      setSelectedFile(file);
+      setImageFileUrl(URL.createObjectURL(file));
+    }
+  }
+  useEffect(()=>{
+    if(selectedFile){
+      uploadImageToStorage()
+    }
+  },[selectedFile])
+
+async function uploadImageToStorage(){
+ setImageFileUploading(true);
+ const fileName = new Date().getTime()+ '-' + selectedFile.name;
+ const storage = getStorage()
+ const storageRef = ref(storage, `pfp/${fileName}`);
+ const uploadTask = uploadBytesResumable(storageRef,selectedFile);
+ uploadTask.on('state_changed',
+ (snapshot) => {
+  const progress = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+  console.log("upload is " + progress + "% done");
+ }, 
+ (error) => {
+  console.error(error);
+  setImageFileUploading(false);
+  setImageFileUrl(null);
+  setSelectedFile(null);
+ },
+ () => {
+  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+    setImageFileUrl(downloadURL);
+    setImageFileUploading(false)
+  });
+ })
   }
   //for bio
   useEffect(()=>{
@@ -100,6 +146,7 @@ if (userDoc.exists()) {
     <h1 className="text-3xl text-center mt-6 font-bold">My Profile</h1>
     <div className="w-full md:w-[50%] mt-6 px-3 ">
       <div className="flex justify-center my-3">
+      <div className='w-36 h-36 rounded-full bg-blue-500' onClick={()=> setIsOpen(true)}/>
     </div>
       <form>
         <input type="text" id="name" value={name} disabled={!changeDetail} onChange={onChange} className={`w-full px-4 py-2 mb-6 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out ${ changeDetail && "bg-red focus:bg-red-200}"}`}/>
@@ -132,6 +179,15 @@ if (userDoc.exists()) {
       </>
     )}
    </div>
+   {isOpen && (<Modal isOpen={isOpen} className='max-w-lg w-[90%] p-6 absolute top-56 left-[50%] translate-x-[-50%] text-blue-600 bg-white border-2 rounded-md' onRequestClose={()=>setIsOpen(false)} ariaHideApp={false}>
+        <div className='flex flex-col justify-center items-center h-[100%]'>
+          {selectedFile ? (<img src={imageFileUrl} alt='selected file' onClick={()=> filePickerRef.current.click()} className={`w-full max-h-[250px] object-cover cursor-pointer ${imageFileUploading ? 'animate-pulse' : ''}`}/>) :
+          <HiCamera onClick={()=> filePickerRef.current.click()} className='text-3xl text-gray-400 cursor-pointer'/>}
+          <input hidden ref={filePickerRef} type="file" accept='image/*' onChange={addDisplayPicture} />
+        </div>
+        <button className='w-full bg-blue-600 text-white p-2 shadow-md disabled:bg-gray-200 disabled:cursor-not-allowed rounded-lg my-3'>Upload Profile Picture</button>
+        <AiOutlineClose className='cursor-pointer absolute top-2 right-2 hover:text-red-200 duration-300' onClick={()=> setIsOpen(false)}/>
+      </Modal>)}
    </>
   )
 }

@@ -14,6 +14,7 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 export default function Profile() {
   const auth  = getAuth()
   const navigate = useNavigate();
+  const [dp, setDp] = useState(null);
   const [listings, setListings] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -89,8 +90,7 @@ if (userDoc.exists()) {
 }
     }
     fetchUser();
-  },[])
-    
+  },[auth.currentUser.uid])
   async function onSubmit(){
     if(auth.currentUser.displayName!==name){
     await updateProfile(auth.currentUser, {
@@ -112,6 +112,16 @@ if (userDoc.exists()) {
 
   toast.success("Updated")
   }
+  async function handleSubmit(){
+  const userRef = doc(db, "users", auth.currentUser.uid);
+  const userDoc = await getDoc(userRef);
+  await updateDoc(userRef,{
+    Pfp: imageFileUrl,
+  })
+  setDp(imageFileUrl);
+  toast.success("Uploaded")
+  setIsOpen(false)
+}
   useEffect(()=>{
     async function fetchUserListings(){
       const listingRef = collection(db, "listings");
@@ -129,6 +139,21 @@ if (userDoc.exists()) {
     }
     fetchUserListings();
   },[auth.currentUser.uid])
+      //for pfp
+      useEffect(()=>{
+        setLoading(true);
+        async function fetchDp(){
+          const userRef = doc(db, "users", auth.currentUser.uid);
+          const userDoc = await getDoc(userRef);
+    
+    if (userDoc.exists()) {
+        setDp(userDoc.data().Pfp);
+    } else {
+        console.log("User document does not exist.");
+    }
+        }
+        fetchDp();
+      },[auth.currentUser.uid])
   async function onDelete(listingId){
     if(window.confirm("Are you sure you want to delete?")){
       await deleteDoc(doc(db,"listings", listingId))
@@ -146,7 +171,9 @@ if (userDoc.exists()) {
     <h1 className="text-3xl text-center mt-6 font-bold">My Profile</h1>
     <div className="w-full md:w-[50%] mt-6 px-3 ">
       <div className="flex justify-center my-3">
-      <div className='w-36 h-36 rounded-full bg-blue-500' onClick={()=> setIsOpen(true)}/>
+      <div className='w-36 h-36 rounded-full overflow-hidden bg-blue-500' onClick={()=> setIsOpen(true)}>
+        <img src={dp} alt="" className='w-full h-full object-cover'/>
+        </div>
     </div>
       <form>
         <input type="text" id="name" value={name} disabled={!changeDetail} onChange={onChange} className={`w-full px-4 py-2 mb-6 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out ${ changeDetail && "bg-red focus:bg-red-200}"}`}/>
@@ -185,7 +212,7 @@ if (userDoc.exists()) {
           <HiCamera onClick={()=> filePickerRef.current.click()} className='text-3xl text-gray-400 cursor-pointer'/>}
           <input hidden ref={filePickerRef} type="file" accept='image/*' onChange={addDisplayPicture} />
         </div>
-        <button className='w-full bg-blue-600 text-white p-2 shadow-md disabled:bg-gray-200 disabled:cursor-not-allowed rounded-lg my-3'>Upload Profile Picture</button>
+        <button onClick={handleSubmit} className='w-full bg-blue-600 text-white p-2 shadow-md disabled:bg-gray-200 disabled:cursor-not-allowed rounded-lg my-3'>Upload Profile Picture</button>
         <AiOutlineClose className='cursor-pointer absolute top-2 right-2 hover:text-red-200 duration-300' onClick={()=> setIsOpen(false)}/>
       </Modal>)}
    </>

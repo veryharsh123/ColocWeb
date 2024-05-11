@@ -50,6 +50,9 @@ export default function ShowProfile() {
   return (
     <>
      <section className="max-w-6xl mx-auto flex justify-center items-center flex-col">
+     <div className='w-36 h-36 rounded-full overflow-hidden bg-blue-500'>
+        <img src={user.Pfp} alt="" className='w-full h-full object-cover'/>
+        </div>
       <h1 className="text-3xl text-center mt-6 mb-3 font-bold">{user.fullname}</h1>
       <h3 className='text-gray-400'>{user.bio}</h3>
       <button type="submit" className='w-1/2 py-2 my-3 bg-blue-600 hover:bg-blue-800 rounded transition ease-in-out'>

@@ -15,6 +15,7 @@ import EditListing from './pages/EditListing';
 import FindFlatmate from './pages/FindFlatmate';
 import Listing from './pages/Listing';
 import Category from './pages/Category';
+import AdditionalInfo from './pages/AdditionalInfo';
 // @ts-ignore
 import ShowProfile from './pages/ShowProfile';
 import Chat from './pages/Chat';
@@ -32,6 +33,7 @@ function App() {
         </Route>
         <Route path='/SignUp' element={<SignUp />} />
         <Route path='/SignIn' element={< SignIn/>} />
+        <Route path='/AdditionalInfo' element={< AdditionalInfo/>} />
         <Route path='/ForgotPassword' element={< ForgotPassword/>} />
         <Route path='/create-listing' element={<PrivateRoute/>}>
         <Route path='/create-listing' element={< CreateListing/>} />

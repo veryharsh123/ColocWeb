@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {db} from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 import Spinner from '../components/spinner';
 export default function AdditionalInfo() 
 {
@@ -13,6 +13,32 @@ export default function AdditionalInfo()
   const [userData, setUserData] = useState(null);
   const auth = getAuth();
   const [loading, setLoading] = useState(false);
+const [colleges, setColleges] = useState([]);
+  useEffect(() => {
+    const fetchColleges = async () => {
+      try {
+        const cachedColleges = localStorage.getItem('colleges');
+        console.log(cachedColleges);
+        if (cachedColleges) {
+          setColleges(JSON.parse(cachedColleges));
+        } else {
+          const collegesRef = collection(db,'colleges');
+          const collegesSnapshot = await getDocs(collegesRef);
+          console.log(collegesSnapshot);
+          const collegesList = collegesSnapshot.docs.map(doc => doc.data());
+          setColleges(collegesList);
+          localStorage.setItem('colleges', JSON.stringify(collegesList));
+        }
+      } catch (error) {
+        console.error('Error fetching colleges:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchColleges();
+  }, []);
+
   useEffect(()=>
   { setLoading(true);
       async function getUser(){
@@ -68,9 +94,9 @@ if(loading){
   return (
     <div className="min-h-screen flex items-center justify-center bg-black text-white">
     <form onSubmit={handleSubmit} className="bg-gray-900 p-8 rounded-lg shadow-md w-full max-w-md">
-      <h1 className="text-2xl font-bold mb-6 text-blue-500">Complete Your Profile</h1>
+      <h1 className="text-2xl font-bold mb-6 text-white">Complete Your Profile</h1>
       <div className="mb-4">
-        <label className="block text-blue-500 mb-2" htmlFor="age">Age:</label>
+        <label className="block text-white mb-2" htmlFor="age">Age:</label>
         <input
           type="number"
           id="age"
@@ -81,7 +107,7 @@ if(loading){
         />
       </div>
       <div className="mb-4">
-        <label className="block text-blue-500 mb-2" htmlFor="bio">Bio:</label>
+        <label className="block text-white mb-2" htmlFor="bio">Bio:</label>
         <textarea
           id="bio"
           value={bio}
@@ -90,20 +116,26 @@ if(loading){
           className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         ></textarea>
       </div>
-      <div className="mb-6">
-        <label className="block text-blue-500 mb-2" htmlFor="college">College:</label>
-        <input
-          type="text"
-          id="college"
-          value={college}
-          onChange={(e) => setCollege(e.target.value)}
-          required
-          className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+        <div className="mb-4">
+            <label className="block text-white mb-2" htmlFor="college">College:</label>
+            <select
+            id="college"
+            value={college}
+            onChange={(e) => setCollege(e.target.value)}
+            required
+            className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+            <option value="">Select College</option>
+            {colleges.map((college) => (
+                <option key={college.id} value={college.name}>
+                {college.name}
+                </option>
+            ))}
+            </select>
+        </div>
       <button
         type="submit"
-        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         Submit
       </button>

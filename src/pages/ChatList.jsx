@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../firebase";
 import Chat from "../components/Chat";
+import Spinner from "../components/spinner";
 
 export default function ChatList() {
   const { chatId } = useParams(); // Get chatId from URL (if available)
@@ -69,9 +70,7 @@ export default function ChatList() {
   // 🕵️‍♂️ Loading indicator for better UX
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p>Loading chats...</p>
-      </div>
+     <Spinner />
     );
   }
 
@@ -93,11 +92,11 @@ export default function ChatList() {
             return (
               <div
                 key={chat.id}
-                className="p-3 mb-2 rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200"
+                className="p-3 mb-2 rounded-lg bg-gray-100 text-black cursor-pointer hover:bg-gray-200"
                 onClick={() => setSelectedChat(chat)}
               >
                 <p className="font-semibold">{otherUser?.fullname || "Unknown User"}</p>
-                <small className="text-gray-500">{otherUser?.bio || "No bio available"}</small>
+                <small className="text-gray-500">{otherUser?.bio || ""}</small>
               </div>
             );
           })

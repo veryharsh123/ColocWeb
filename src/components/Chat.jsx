@@ -69,7 +69,7 @@ export default function Chat({ chatId, otherUser }) {
                 : "bg-gray-200 text-black"
             }`}
           >
-            <p>{msg.text}</p>
+            <p className="text-xl">{msg.text}</p>
             <small className="block mt-1 text-xs opacity-75">
               {msg.createdAt?.toDate().toLocaleTimeString([], {
                 hour: "2-digit",

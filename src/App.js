@@ -18,15 +18,16 @@ import Category from "./pages/Category";
 import ChatList from "./pages/ChatList";
 // @ts-ignore
 import ShowProfile from "./pages/ShowProfile";
-import Chat from "./components/Chat";
 function App() {
   return (
     <>
       <Router>
         <Header />
         <Routes>
-        <Route path="/chats/:chatId" element={<ChatList />} />
+        <Route path="/chats" element={<PrivateRoute />}>
         <Route path="/chats/" element={<ChatList />} />
+        <Route path="/chats/:chatId" element={<ChatList />} />
+        </Route>
           <Route path="/" element={<Home />} />
           <Route path="/find" element={<FindFlatmate />} />
           <Route path="/category/:categoryName" element={<Category />} />

@@ -31,6 +31,7 @@ function pathMatch(route){
         <li className={`cursor-ponter py-3  text-sm font-semibold border-b-[3px] cursor-pointer text-blue-600 ${pathMatch("/") && "border-b-blue-500 "}`} onClick={()=>navigate("/")}>Home</li>
         <li className={`cursor-ponter py-3  text-sm font-semibold border-b-[3px] cursor-pointer text-blue-600 ${pathMatch("/find") && "border-b-blue-500 "}`} onClick={()=>navigate("/find")}>Find Flatmate</li>
         <li className={`cursor-ponter py-3  text-sm font-semibold border-b-[3px] cursor-pointer text-blue-600 ${(pathMatch("/SignIn") || pathMatch("/profile"))&& "border-b-blue-500 "}`} onClick={()=>navigate("/profile")}>{pageState}</li>
+        <li className={`cursor-ponter py-3  text-sm font-semibold border-b-[3px] cursor-pointer text-blue-600 ${(pathMatch("/chats"))&& "border-b-blue-500 "}`} onClick={()=>navigate("/chats")}>Chats</li>
        </ul>
         </div>
       </header>

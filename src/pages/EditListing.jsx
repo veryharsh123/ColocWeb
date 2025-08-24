@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { getAuth } from 'firebase/auth'
 import {v4 as uuidv4} from "uuid"
-import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useNavigate, useParams } from 'react-router'
 export default function CreateListing() {

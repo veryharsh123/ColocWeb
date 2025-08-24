@@ -61,7 +61,7 @@ export default function Profile() {
     if(selectedFile){
       uploadImageToStorage()
     }
-  },[selectedFile, ])
+  },)
 
   async function uploadImageToStorage(){
     setImageFileUploading(true);

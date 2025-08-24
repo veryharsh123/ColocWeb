@@ -12,12 +12,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreateListing from "./pages/CreateListing";
 import EditListing from "./pages/EditListing";
+import CreateMarketplaceListing from "./pages/CreateMarketplaceListing";
 import FindFlatmate from "./pages/FindFlatmate";
 import Listing from "./pages/Listing";
 import Category from "./pages/Category";
 import ChatList from "./pages/ChatList";
 // @ts-ignore
 import ShowProfile from "./pages/ShowProfile";
+import MarketplaceListing from "./pages/MarketplaceListing";
+import Marketplace from "./pages/Marketplace";
 function App() {
   return (
     <>
@@ -40,6 +43,12 @@ function App() {
           <Route path="/create-listing" element={<PrivateRoute />}>
             <Route path="/create-listing" element={<CreateListing />} />
           </Route>
+          <Route path="/create-marketplacelisting" element={<PrivateRoute />}>
+            <Route path="/create-marketplacelisting" element={<CreateMarketplaceListing />} />
+          </Route>
+          <Route path="/marketplace" element={<PrivateRoute />}>
+            <Route path="/marketplace" element={<Marketplace />} />
+          </Route>
           <Route path="/edit-listing" element={<PrivateRoute />}>
             <Route path="/edit-listing/:listingId" element={<EditListing />} />
           </Route>
@@ -48,6 +57,7 @@ function App() {
             element={<Listing />}
           />
           <Route path="/show/:userId" element={<ShowProfile />} />
+          <Route path="/marketplace/:itemId" element={<MarketplaceListing />} />
         </Routes>
       </Router>
       <ToastContainer

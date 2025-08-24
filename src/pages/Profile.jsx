@@ -61,7 +61,7 @@ export default function Profile() {
     if(selectedFile){
       uploadImageToStorage()
     }
-  },)
+  },[selectedFile])
 
   async function uploadImageToStorage(){
     setImageFileUploading(true);
@@ -97,8 +97,9 @@ export default function Profile() {
         setFormData({
           email:userDoc.data().email,
           name:userDoc.data().fullname,
-          bio:userDoc.data().bio
+          bio:userDoc.data().bio,
         })
+        setDp(userDoc.data().Pfp)
       }
     }
     fetchUser();

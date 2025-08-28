@@ -32,7 +32,9 @@ function App() {
         <Route path="/chats/:chatId" element={<ChatList />} />
         </Route>
           <Route path="/" element={<Home />} />
+          <Route patjh="/find" element={<PrivateRoute />} >
           <Route path="/find" element={<FindFlatmate />} />
+          </Route>
           <Route path="/category/:categoryName" element={<Category />} />
           <Route path="/Profile" element={<PrivateRoute />}>
             <Route path="/Profile" element={<Profile />} />
